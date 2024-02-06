@@ -3,16 +3,18 @@ using UnityEngine.InputSystem;
 
 public class Walking : MonoBehaviour
 {
-    Rigidbody2D rb;
     [SerializeField] float speed;
 
+    Rigidbody2D rb;
     PlayerInput input;
+    Jumping jumping;
     Vector2 moveInput;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         input = GetComponent<PlayerInput>();
+        jumping = GetComponent<Jumping>();
     }
 
     private void Update()
@@ -22,11 +24,16 @@ public class Walking : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Walk(moveInput);
+        Walk();
     }
 
-    void Walk(Vector2 dir)
+    void Walk()
     {
-        rb.velocity = (new Vector2(dir.x * speed, rb.velocity.y));
+        if(jumping.isWallJumping)
+        {
+            Debug.Log("el pepeeee");
+            rb.velocity = Vector2.Lerp(rb.velocity, (new Vector2(moveInput.x * speed, rb.velocity.y)), .5f * Time.deltaTime);
+        }
+        else rb.velocity = (new Vector2(moveInput.x * speed, rb.velocity.y));
     }
 }
