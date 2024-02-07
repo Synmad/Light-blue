@@ -1,57 +1,55 @@
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Dashing : MonoBehaviour
 {
-    [SerializeField] float speed;
+    bool isDashing;
+    Rigidbody2D rb;
+    [SerializeField] float power;
     [SerializeField] float duration;
+    [SerializeField] float cooldown;
+    bool canDash = true;
 
     PlayerInput input;
-    Vector2 moveInput;
-    Rigidbody2D rb;
-    StateManager state;
     Vector2 dir;
 
     void Awake()
     {
-        input = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
-        state = GetComponent<StateManager>();
-    }
-
-    void Update()
-    {
-        moveInput = input.actions["Move"].ReadValue<Vector2>();
-
-        if(state.currentState == StateManager.State.Dashing)
-        {
-            rb.velocity = dir.normalized * speed;
-        }
+        input = GetComponent<PlayerInput>();
     }
 
     void OnDash()
     {
-        Debug.Log("ondash");
-        Dash(moveInput.x, moveInput.y);
-    }
-
-    void Dash(float x, float y)
-    {
-        state.ChangeState(StateManager.State.Dashing);
-        rb.velocity = Vector2.zero;
-        dir = new Vector2(x,y);
-        if(dir == Vector2.zero)
+        if(canDash)
         {
-            dir = new Vector2(transform.localScale.x, 0);
+            isDashing = true;
+            // canDash = false;
+            dir = input.actions["Move"].ReadValue<Vector2>();
+            if(dir == Vector2.zero)
+            {
+                dir = new Vector2(transform.localScale.x, 0);
+            }
+            rb.AddForce(dir.normalized * power);
+            // StartCoroutine(StopDashing());
         }
-        StartCoroutine(StopDash());
     }
 
-    IEnumerator StopDash()
-    {
-        yield return new WaitForSeconds(duration);
-        state.ChangeState(StateManager.State.Default);
-    }
+    // void Update()
+    // {
+    //     if(isDashing)
+    //     {
+    //         rb.AddForce(dir.normalized * power);
+    //         return;
+    //     }
+    // }
+
+    // IEnumerator StopDashing()
+    // {
+    //     yield return new WaitForSeconds(duration);
+    //     isDashing = false;
+    // }
 }

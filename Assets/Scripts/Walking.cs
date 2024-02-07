@@ -14,7 +14,7 @@ public class Walking : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         input = GetComponent<PlayerInput>();
-        jumping = GetComponent<Jumping>();
+        // jumping = GetComponent<Jumping>();
     }
 
     private void Update()
@@ -29,11 +29,12 @@ public class Walking : MonoBehaviour
 
     void Walk()
     {
-        if(jumping.isWallJumping)
-        {
-            Debug.Log("el pepeeee");
-            rb.velocity = Vector2.Lerp(rb.velocity, (new Vector2(moveInput.x * speed, rb.velocity.y)), .5f * Time.deltaTime);
-        }
-        else rb.velocity = (new Vector2(moveInput.x * speed, rb.velocity.y));
+        // if(jumping.isWallJumping)
+        // {
+        //     Debug.Log("el pepeeee");
+        //     rb.velocity = Vector2.Lerp(rb.velocity, (new Vector2(moveInput.x * speed, rb.velocity.y)), .5f * Time.deltaTime);
+        // }
+        // else 
+        rb.velocity = (new Vector2(moveInput.x * speed, rb.velocity.y));
     }
 }
