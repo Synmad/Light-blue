@@ -428,9 +428,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 7
-  m_AngularDrag: 0.05
+  m_Mass: 0.5
+  m_LinearDrag: 0
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -566,9 +566,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a412b0805b1414990a1ba31ef901f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpVelocity: 15
-  fallGravMultiplier: 7
-  lowJumpGravMultiplier: 4
+  jumpVelocity: 5.5
+  fallGravMultiplier: 4
+  lowJumpGravMultiplier: 2
   jumpForce: 12
   <isWallJumping>k__BackingField: 0
 --- !u!114 &1249056104
@@ -621,8 +621,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e98d86cf12afd61419f84d9ed9475fb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 157.48
-  duration: 0.5
+  speed: 20
+  duration: 0.3
+  canDash: 0
 --- !u!114 &1249056107
 MonoBehaviour:
   m_ObjectHideFlags: 0

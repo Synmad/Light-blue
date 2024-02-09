@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,12 +10,14 @@ public class Walking : MonoBehaviour
     PlayerInput input;
     Jumping jumping;
     Vector2 moveInput;
+    StateManager state;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         input = GetComponent<PlayerInput>();
         jumping = GetComponent<Jumping>();
+        state = GetComponent<StateManager>();
     }
 
     private void Update()
@@ -29,11 +32,14 @@ public class Walking : MonoBehaviour
 
     void Walk()
     {
-        if(jumping.isWallJumping)
+        if(state.currentState == StateManager.State.WallJumping)
         {
             Debug.Log("el pepeeee");
             rb.velocity = Vector2.Lerp(rb.velocity, (new Vector2(moveInput.x * speed, rb.velocity.y)), .5f * Time.deltaTime);
         }
-        else rb.velocity = (new Vector2(moveInput.x * speed, rb.velocity.y));
+        if(state.currentState == StateManager.State.Default)
+        {
+            rb.velocity = (new Vector2(moveInput.x * speed, rb.velocity.y));
+        } 
     }
 }

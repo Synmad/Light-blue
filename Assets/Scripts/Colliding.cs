@@ -14,6 +14,13 @@ public class Colliding : MonoBehaviour
     [field:SerializeField] public bool onRightWall { get; private set; }
     [field:SerializeField] public int wallSide { get; private set; }
 
+    StateManager state;
+
+    void Awake()
+    {
+        state = GetComponent<StateManager>();
+    }
+
     void Update()
     {
         onGround = Physics2D.OverlapCircle((Vector2) transform.position + bottomOffset, collisionRadius, terrainLayer);
@@ -23,6 +30,11 @@ public class Colliding : MonoBehaviour
         onRightWall = Physics2D.OverlapCircle((Vector2) transform.position + rightOffset, collisionRadius, terrainLayer);
 
         wallSide = onRightWall ? 1 : -1;
+
+        if(onGround && state.currentState != StateManager.State.Dashing)
+        {
+            state.ChangeState(StateManager.State.Default);
+        }
     }
 
     void OnDrawGizmos()

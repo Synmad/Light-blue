@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class StateManager : MonoBehaviour
 {
+
     public enum State
     {
         Default,
@@ -14,6 +15,11 @@ public class StateManager : MonoBehaviour
     void Awake()
     {
         currentState = State.Default;
+    }
+
+    void Update()
+    {
+        Debug.Log(currentState);
     }
 
     public void ChangeState(State newState)
