@@ -14,21 +14,21 @@ public class Dashing : MonoBehaviour
     Rigidbody2D rb;
     StateManager state;
     Vector2 dir;
-    Colliding colliding;
+    NewColliding colliding;
 
     void Awake()
     {
         input = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
         state = GetComponent<StateManager>();
-        colliding = GetComponent<Colliding>();
+        colliding = GetComponent<NewColliding>();
     }
 
     void Update()
     {
         moveInput = input.actions["Move"].ReadValue<Vector2>();
 
-        if(state.currentState == StateManager.State.Default && colliding.onGround)
+        if(state.currentState == StateManager.State.Default && colliding.GetOnGround())
         {
             canDash = true;
         }

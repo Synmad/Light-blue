@@ -8,6 +8,10 @@ public class Jumping : MonoBehaviour
     [SerializeField] float jumpVelocity;
     [SerializeField] float fallGravMultiplier;
     [SerializeField] float lowJumpGravMultiplier;
+
+    float timeSinceJumped;
+    bool isJumping;
+    bool jumpInputReleased;
     #endregion
 
     #region Wall jump variables
@@ -26,6 +30,8 @@ public class Jumping : MonoBehaviour
     WallSlide slide;
     StateManager state;
     #endregion
+
+    
 
     private void Awake()
     {
@@ -53,6 +59,13 @@ public class Jumping : MonoBehaviour
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpGravMultiplier - 1) * Time.deltaTime;
         }
+
+        timeSinceJumped -= Time.deltaTime;
+
+        if(isJumping && rb.velocity.y < 0)
+        {
+            isJumping = false;
+        }
     }
 
     void WallJumpUpdate()
@@ -71,9 +84,11 @@ public class Jumping : MonoBehaviour
 
     void OnJump()
     {
-        if(colliding.onGround)
+        if(CanJump())
         {
-            rb.velocity = Vector2.up * jumpVelocity;
+            rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
+            timeSinceJumped = 0;
+
         }
 
         if(colliding.onWall && !colliding.onGround)
@@ -91,5 +106,10 @@ public class Jumping : MonoBehaviour
             //     transform.localScale = localScale;
             // }
         }
+    }
+
+    bool CanJump()
+    {
+        return colliding.timeSinceGrounded > 0 && !isJumping; 
     }
 }

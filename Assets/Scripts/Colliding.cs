@@ -7,6 +7,7 @@ public class Colliding : MonoBehaviour
     [SerializeField] LayerMask terrainLayer;
     [SerializeField] float collisionRadius;
     [SerializeField] Vector2 bottomOffset, rightOffset, leftOffset;
+    [SerializeField] float coyoteTime;
 
     [field:SerializeField] public bool onGround { get; private set; }
     [field:SerializeField] public bool onWall { get; private set; }
@@ -14,6 +15,7 @@ public class Colliding : MonoBehaviour
     [field:SerializeField] public bool onRightWall { get; private set; }
     [field:SerializeField] public int wallSide { get; private set; }
 
+    public float timeSinceGrounded;
     StateManager state;
 
     void Awake()
@@ -35,6 +37,12 @@ public class Colliding : MonoBehaviour
         {
             state.ChangeState(StateManager.State.Default);
         }
+
+        if(!onGround)
+        {
+            timeSinceGrounded -= Time.deltaTime;
+        }
+        else { timeSinceGrounded = coyoteTime; }
     }
 
     void OnDrawGizmos()
